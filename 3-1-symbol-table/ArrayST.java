@@ -1,6 +1,9 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * a symbol table (map) implemented with unordered array
+ */
 public class ArrayST<Key, Value> {
 
     private static final int INIT_SIZE = 8;
@@ -8,6 +11,7 @@ public class ArrayST<Key, Value> {
     private Value[] values;
     private int size;
 
+    // constructor
     public ArrayST() {
         keys = (Key[]) new Object[INIT_SIZE];
         values = (Value[]) new Object[INIT_SIZE];
@@ -26,6 +30,7 @@ public class ArrayST<Key, Value> {
         values = newValues;
     }
 
+    // put the key value into table 0(N)
     public void put(Key key, Value val) {
         // deal with duplicates
         delete(key);
@@ -41,6 +46,7 @@ public class ArrayST<Key, Value> {
         size++;
     }
 
+    // get value associated with input key 0(N)
     public Value get(Key key) {
         for (int i = 0; i < size; i++) {
             if (keys[i].equals(key)) {
@@ -67,18 +73,22 @@ public class ArrayST<Key, Value> {
         }
     }
 
+    // true if the table contains input key
     public boolean contains(Key key) {
         return get(key) != null;
     }
 
+    // true if the table is empty
     public boolean isEmpty() {
         return size() == 0;
     }
 
+    // returns the number of elements in the table
     public int size() {
         return size;
     }
 
+    // returns an iterable object containing all keys in the table
     public Iterable<Key> keys() {
         Queue<Key> q = new LinkedList<>();
         for (int i = 0; i < size; i++) {
@@ -87,6 +97,7 @@ public class ArrayST<Key, Value> {
         return q;
     }
 
+    // print key-value pairs in the table
     private void print() {
         for (Key key : keys()) {
             System.out.println(key + " " + get(key));
