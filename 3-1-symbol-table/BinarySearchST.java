@@ -27,6 +27,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
 
     // resize keys and values arr to newSize
     private void resize(int newSize) {
+        assert newSize >= n;
         Key[] newKeys = (Key[]) new Comparable[newSize];
         Value[] newValues = (Value[]) new Object[newSize];
         for (int i = 0; i < n; i++) {
@@ -42,6 +43,26 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         if (key == null) {
             throw new IllegalArgumentException("The key is null!");
         }
+    }
+
+    // assert that the keys array is sorted in range [0, n]
+    private void isSorted() {
+        for (int i = 0; i < size() - 1; i++) {
+            assert keys[i].compareTo(keys[i + 1]) < 0;
+        }
+    }
+
+    private void rankCheck() {
+        for (int i = 0; i < size(); i++) {
+            assert rank(select(i)) == i;
+            assert select(rank(keys[i])).equals(keys[i]);
+        }
+    }
+
+    private boolean check() {
+        isSorted();
+        rankCheck();
+        return true;
     }
 
     // put key value pair into table
@@ -63,6 +84,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         keys[ind] = key;
         values[ind] = val;
         n++;
+        assert check();
     }
 
     // returns value associated with key or null
@@ -87,6 +109,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
             values[n] = null;
             if (n > 0 && n <= keys.length / 4) resize(keys.length / 2);
         }
+        assert check();
     }
 
     // returns true if contains key
